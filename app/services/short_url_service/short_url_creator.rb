@@ -5,10 +5,27 @@ module ShortUrlService
     end
 
     def call
-      @short_url.short_code = generate_short_code
-      if @short_url.valid?
+      @short_url.validate
+
+      if @short_url.errors[:target_url].empty?
         @short_url.metadata = scrape_target(@short_url.target_url)
-        @short_url.save
+      end
+
+      max_retries = 5
+      attempts = 0
+
+      loop do
+        attempts += 1
+
+        @short_url.short_code = generate_short_code
+        @short_url.save!
+
+        break
+      rescue ActiveRecord::RecordNotUnique
+        if attempts >= max_retries
+            Rails.logger.error("Failed to create short URL after #{max_retries} attempts")
+            raise
+        end
       end
       @short_url
     end

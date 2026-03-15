@@ -1,1 +1,13 @@
 @import "tailwindcss";
+
+.input-standard {
+  @apply border border-gray-300 p-2 rounded w-full bg-white;
+}
+
+.btn-action {
+  @apply p-1 rounded border flex items-center gap-1 border-gray-300 text-xs cursor-pointer hover:bg-slate-100 hover:border-gray-600 transition-all;
+}
+
+.alert {
+  @apply border border-red-300 bg-red-100 text-red-800 p-4 rounded;
+}

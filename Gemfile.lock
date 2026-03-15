@@ -172,6 +172,7 @@ GEM
       net-smtp
     marcel (1.1.0)
     matrix (0.4.3)
+    maxmind-db (1.4.0)
     mcp (0.8.0)
       json-schema (>= 4.1)
     mini_magick (5.3.1)
@@ -284,6 +285,7 @@ GEM
     regexp_parser (2.11.3)
     reline (0.6.3)
       io-console (~> 0.5)
+    resolv (0.7.1)
     rexml (3.4.4)
     rubocop (1.85.1)
       json (~> 2.3)
@@ -412,10 +414,12 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kamal
+  maxmind-db
   pg (~> 1.1)
   propshaft
   puma (>= 5.0)
   rails (~> 8.1.2)
+  resolv
   rubocop-rails-omakase
   selenium-webdriver
   solid_cable

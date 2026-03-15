@@ -36,3 +36,7 @@
 
 /app/assets/builds/*
 !/app/assets/builds/.keep
+
+GeoLite2-City.mmdb
+
+.DS_Store

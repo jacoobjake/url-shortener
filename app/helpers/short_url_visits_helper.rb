@@ -1,0 +1,2 @@
+module ShortUrlVisitsHelper
+end

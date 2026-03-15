@@ -1,0 +1,49 @@
+<div class="grid grid-cols-1 md:grid-cols-5 gap-2">
+    <div class="md:col-span-2 border border-slate-300 rounded-md p-8 space-y-4 h-full">
+        <div class="grid grid-cols-1 gap-4">
+            <div class="flex items-center justify-between gap-2">
+                <label class="font-bold text-lg">Short URL</label>
+                <div class="flex items-center gap-2">
+                    <button onclick="copyInputToClipboardById('short-url')" class="btn-action">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy-icon lucide-copy"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                        Copy
+                    </button>
+                    <button onclick="openLinkInNewTab('<%= short_url_redirect_url(@short_url[:short_code]) %>')" class="btn-action">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link-icon lucide-external-link"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                        Open
+                    </button>
+                </div>
+            </div>
+            <input id="short-url" type="text" value="<%= short_url_redirect_url(@short_url[:short_code]) %>" readonly disabled class="input-standard"/>
+            <label class="font-bold text-lg">Target URL</label>
+            <input id="target-url" type="text" value="<%= @short_url.target_url %>" readonly disabled class="input-standard"/>
+            <label class="font-bold text-lg">Metadata</label>
+            <div class="border border-gray-300 p-4 bg-slate-50 rounded w-full grid grid-cols-1 gap-4">
+                <label class="font-bold">Title</label>
+                <input id="title" type="text" value="<%= @short_url.metadata["title"] %>" readonly disabled class="input-standard"/>
+                <label class="font-bold">Description</label>
+                <input id="description" type="text" value="<%= @short_url.metadata["description"] %>" readonly disabled class="input-standard"/>
+            </div>
+        </div>
+    </div>
+    <div class="md:col-span-3 h-full">
+        <%= render "short_urls/traffic_details", short_url: @short_url %>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    function copyInputToClipboardById(id) {
+        var text = document.getElementById(id).value;
+        navigator.clipboard.writeText(text).then(function() {
+        alert("Copied to clipboard: " + text);
+        }, function(err) {
+        console.error("Could not copy text: ", err);
+        });
+    }
+
+    function openLinkInNewTab(url) {
+        var newTab = window.open(url, '_blank');
+        newTab.focus();
+    }
+</script>

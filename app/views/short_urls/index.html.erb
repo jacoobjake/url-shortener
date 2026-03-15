@@ -4,7 +4,7 @@
 
   <div class="border border-slate-300 rounded-md p-8 space-y-4">
     <%= form_with model: @short_url, url: shorten_url_path do |form| %>
-    <% if form.object.errors.any? %>
+        <% if form.object.errors.any? %>
           <p class="error"><%= form.object.errors.full_messages.first %></p>
         <% end %>
       <div class="grid grid-cols-1 gap-4">

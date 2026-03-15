@@ -1,0 +1,99 @@
+<div class="w-full h-full p-8 border border-slate-300 rounded-md space-y-4"
+    data-short-code="<%= short_url.short_code %>"
+    id="traffic-details">
+    <h2 class="font-bold text-lg">Traffic Details</h2>
+    <div class="w-full flex justify-between items-center">
+        <div id="visits-summary" class="text-sm text-slate-500">Loading...</div>
+
+        <div class="flex items-center justify-between gap-4" id="visits-pagination">
+            <button id="visits-prev" class="btn-action" disabled>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left-icon lucide-chevron-left"><path d="m15 18-6-6 6-6"/></svg>
+                Previous
+            </button>
+            <span id="visits-page-info" class="text-sm text-slate-500"></span>
+            <button id="visits-next" class="btn-action" disabled>
+                Next
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left">
+            <thead class="text-xs text-slate-500 uppercase border-b border-slate-200">
+                <tr>
+                    <th class="py-2 pr-4">Time</th>
+                    <th class="py-2 pr-4">Country</th>
+                    <th class="py-2 pr-4">Region</th>
+                    <th class="py-2 pr-4">City</th>
+                    <th class="py-2 pr-4">Referrer</th>
+                </tr>
+            </thead>
+            <tbody id="visits-table-body">
+                <tr><td colspan="5" class="py-4 text-slate-400 italic">Loading visits...</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript">
+  (function () {
+    const shortCode = document.getElementById("traffic-details").dataset.shortCode;
+    const baseUrl   = `/shorten/${shortCode}/visits`;
+    const pageSize  = 10;
+    let   currentPage = 1;
+
+    function formatDate(iso) {
+      return new Date(iso).toLocaleString();
+    }
+
+    function renderVisits(data) {
+      const tbody   = document.getElementById("visits-table-body");
+      const summary = document.getElementById("visits-summary");
+      const info    = document.getElementById("visits-page-info");
+      const prev    = document.getElementById("visits-prev");
+      const next    = document.getElementById("visits-next");
+
+      const { items, pagination } = data;
+      const totalPages = Math.max(1, Math.ceil(pagination.total / pagination.limit));
+
+      summary.textContent = `${pagination.total} visit${pagination.total !== 1 ? "s" : ""} total`;
+      info.textContent    = `Page ${pagination.page} of ${totalPages}`;
+      prev.disabled       = pagination.page <= 1;
+      next.disabled       = pagination.page >= totalPages;
+
+      if (items.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="py-4 text-slate-400 italic">No visits recorded yet.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = items.map(v => `
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="py-2 pr-4 whitespace-nowrap">${formatDate(v.created_at)}</td>
+          <td class="py-2 pr-4">${v.country_name || v.country_code || "—"}</td>
+          <td class="py-2 pr-4">${v.region_name  || v.region_code  || "—"}</td>
+          <td class="py-2 pr-4">${v.city || "—"}</td>
+          <td class="py-2 pr-4 truncate max-w-xs">${v.referrer || "—"}</td>
+        </tr>
+      `).join("");
+    }
+
+    function loadPage(page) {
+      fetch(`${baseUrl}?page=${page}&page_size=${pageSize}`)
+        .then(res => res.json())
+        .then(data => {
+          currentPage = page;
+          renderVisits(data);
+        })
+        .catch(() => {
+          document.getElementById("visits-table-body").innerHTML =
+            `<tr><td colspan="5" class="py-4 text-red-400">Failed to load visits.</td></tr>`;
+        });
+    }
+
+    document.getElementById("visits-prev").addEventListener("click", () => loadPage(currentPage - 1));
+    document.getElementById("visits-next").addEventListener("click", () => loadPage(currentPage + 1));
+
+    loadPage(1);
+  })();
+</script>

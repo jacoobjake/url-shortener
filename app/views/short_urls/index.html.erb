@@ -1,0 +1,23 @@
+<div class="space-y-4 w-full">
+  <h1 class="font-bold text-4xl">Simple URL Shortener</h1>
+  <p>Shorten your url. Simple and Easy.</p>
+
+  <div class="border border-slate-300 rounded-md p-8 space-y-4">
+    <%= form_with model: @short_url, url: shorten_url_path do |form| %>
+    <% if form.object.errors.any? %>
+          <p class="error"><%= form.object.errors.full_messages.first %></p>
+        <% end %>
+      <div class="grid grid-cols-1 gap-4">
+        <%= form.label :target_url, "Paste your long URL here", class: "required" %>
+        <%= form.text_field :target_url, class: "border border-gray-300 p-2 rounded w-full", placeholder: "https://example.com/very/long/url" %>
+        <% if form.object.errors.where(:target_url).any? %>
+          <p class="error"><%= form.object.errors.where(:target_url).first.full_message %></p>
+        <% end %>
+      </div>
+
+      <div class="flex justify-between gap-4 mt-4">
+        <%= form.submit "Create Short URL", class: "bg-blue-500 text-white p-3 rounded-lg text-center"%>
+      </div>
+    <% end %>
+  </div>
+</div>

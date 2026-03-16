@@ -3,7 +3,6 @@ module ShortUrlService
     def initialize(short_url, request)
       @short_url = short_url
       @request = request
-      @georeader = MaxMind::DB.new(Rails.root.join("db/GeoLite2-City.mmdb"), mode: MaxMind::DB::MODE_MEMORY)
     end
 
     def call

@@ -1,10 +1,11 @@
 module ShortUrlService
   class CaptureVisit < ApplicationService
-    def initialize(short_url_id, remote_ip, user_agent, referrer)
+    def initialize(short_url_id, remote_ip, user_agent, referrer, visited_at)
       @short_url_id = short_url_id
       @remote_ip = remote_ip
       @user_agent = user_agent
       @referrer = referrer
+      @visited_at = visited_at
     end
 
     def call
@@ -34,7 +35,8 @@ module ShortUrlService
         short_url_id: @short_url_id,
         ip_address: anonymize_ip(@remote_ip),
         user_agent: @user_agent,
-        referrer: @referrer
+        referrer: @referrer,
+        visited_at: @visited_at
       )
       geo = GeoliteService::GetIpGeolocation.call(@remote_ip)
 

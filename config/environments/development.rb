@@ -80,5 +80,5 @@ Rails.application.configure do
     /.*\.ngrok-free\.app/ # Allow requests from subdomains like `www.example.com`
   ]
   config.active_job.queue_adapter = :solid_queue
-  config.solid_queue.connects_to = { database: { writing: :queue } }
+  # config.solid_queue.connects_to = { database: { writing: :queue } }
 end

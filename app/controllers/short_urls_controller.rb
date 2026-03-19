@@ -45,7 +45,7 @@ class ShortUrlsController < ApplicationController
     if crawler_request?
       render :crawler_preview, locals: { short_url: short_url }, layout: "application"
     else
-      CaptureVisitJob.perform_later(short_url.id, request.remote_ip, request.user_agent, request.referer)
+      CaptureVisitJob.perform_later(short_url.id, request.remote_ip, request.user_agent, request.referer, Time.current)
       redirect_to short_url.target_url, allow_other_host: true
     end
   end

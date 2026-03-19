@@ -69,7 +69,7 @@
 
       tbody.innerHTML = items.map(v => `
         <tr class="border-b border-slate-100 hover:bg-slate-50">
-          <td class="py-2 pr-4 whitespace-nowrap">${formatDate(v.created_at)}</td>
+          <td class="py-2 pr-4 whitespace-nowrap">${formatDate(v.visited_at)}</td>
           <td class="py-2 pr-4">${v.country_name || v.country_code || "—"}</td>
           <td class="py-2 pr-4">${v.region_name  || v.region_code  || "—"}</td>
           <td class="py-2 pr-4">${v.city || "—"}</td>

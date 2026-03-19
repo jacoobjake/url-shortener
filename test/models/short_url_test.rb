@@ -1,7 +1,6 @@
 require "test_helper"
 
 class ShortUrlTest < ActiveSupport::TestCase
-
   test "fixtures are valid" do
     [ :github, :google, :rails_docs ].each do |key|
       assert short_urls(key).valid?, "Expected fixture :#{key} to be valid"

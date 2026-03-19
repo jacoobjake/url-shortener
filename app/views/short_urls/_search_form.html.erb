@@ -1,7 +1,29 @@
 <div class="grid grid-cols-12 gap-2 py-4">
-    <input type="text" class="input-standard col-span-11" placeholder="YourShortCode">
-    <button class="btn-main">
+    <input id="search-short-code" type="text" class="input-standard col-span-10" placeholder="YourShortCode" value="<%= params[:short_code] %>">
+    <button id="search-submit" class="btn-main col-span-2 btn">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search-icon lucide-search"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
         Search
     </button>
 </div>
+
+<script type="text/javascript">
+    (function() {
+        document.getElementById("search-short-code").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                document.getElementById("search-submit").click();
+            }
+        });
+        document.getElementById("search-short-code").addEventListener("input", function() {
+            console.log("Short code input changed");
+            const shortCode = document.getElementById("search-short-code").value.trim();
+            document.getElementById("search-submit").disabled = !shortCode;
+        });
+        document.getElementById("search-submit").addEventListener("click", function() {
+            const shortCode = document.getElementById("search-short-code").value.trim();
+            if (shortCode) {
+                window.location.href = "<%= short_url_show_path('SHORT_CODE_PLACEHOLDER') %>".replace("SHORT_CODE_PLACEHOLDER", encodeURIComponent(shortCode));
+            }
+        });
+    })();
+</script>

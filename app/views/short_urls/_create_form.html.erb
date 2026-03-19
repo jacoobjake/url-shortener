@@ -1,4 +1,4 @@
-<%= form_with model: short_url, url: shorten_url_path do |form| %>
+<%= form_with model: short_url, url: shorten_url_path, html: { id: "shorten-form" } do |form| %>
     <% if form.object.errors.any? %>
         <p class="error"><%= form.object.errors.full_messages.first %></p>
     <% end %>
@@ -11,6 +11,6 @@
     </div>
 
     <div class="flex justify-between gap-4 mt-4">
-    <%= form.submit "Create Short URL", class: "bg-blue-500 text-white p-3 rounded-lg text-center"%>
+    <%= form.submit "Create Short URL", id: "submit-shorten", class: "bg-blue-500 text-white p-3 rounded-lg text-center"%>
     </div>
 <% end %>

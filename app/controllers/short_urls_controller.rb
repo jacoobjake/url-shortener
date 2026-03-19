@@ -11,7 +11,7 @@ class ShortUrlsController < ApplicationController
     only: :redirect,
     with: :rate_limited,
     name: "redirect"
-  rate_limit to: 1,
+  rate_limit to: 300,
     within: 1.minutes,
     by: -> { request.remote_ip },
     except: [ :create, :redirect ],

@@ -1,7 +1,6 @@
 require "test_helper"
 
 class ShortUrlVisitTest < ActiveSupport::TestCase
-
   test "fixtures are valid" do
     [ :us_visit, :uk_visit, :no_geo_visit ].each do |key|
       assert short_url_visits(key).valid?, "Expected fixture :#{key} to be valid"

@@ -1,7 +1,6 @@
 require "test_helper"
 
 class ShortUrlService::ShortUrlCreatorTest < ActiveSupport::TestCase
-
   test "creates a persisted ShortUrl when network is unreachable (empty metadata fallback)" do
     # Port 19999 is refused instantly; the creator rescues and stores {} metadata
     result = ShortUrlService::ShortUrlCreator.call("https://localhost:19999")

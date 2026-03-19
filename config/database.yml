@@ -20,17 +20,34 @@ default: &default
   max_connections: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
-  <<: *default
-  database: url_shortener_development
+  primary: &primary_development
+    <<: *default
+    host: <%= ENV.fetch("DATABASE_HOST") { "localhost" } %>
+    port: 5432
+    username: <%= ENV["DATABASE_USERNAME"] %>
+    password: <%= ENV["DATABASE_PASSWORD"] %>
+    database: url_shortener_development
+  cache:
+    <<: *primary_development
+    database: url_shortener_development_cache
+    migrations_paths: db/cache_migrate
+  queue:
+    <<: *primary_development
+    database: url_shortener_development_queue
+    migrations_paths: db/queue_migrate
+  cable:
+    <<: *primary_development
+    database: url_shortener_development_cable
+    migrations_paths: db/cable_migrate
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
   # When left blank, PostgreSQL will use the default role. This is
   # the same name as the operating system user running Rails.
-  username: root
+  # username: root
 
   # The password associated with the PostgreSQL role (username).
-  password: password
+  # password: <%= ENV["DATABASE_PASSWORD"] %>
 
   # Connect on a TCP socket. Omitted by default since the client uses a
   # domain socket that doesn't need configuration. Windows does not have
@@ -54,7 +71,7 @@ development:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  <<: *default
+  <<: *primary_development
   database: url_shortener_test
 
 # As with config/credentials.yml, you never want to store sensitive information,

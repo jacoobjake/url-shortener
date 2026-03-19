@@ -9,6 +9,7 @@ default: &default
       polling_interval: 0.1
 
 development:
+  database: queue
   <<: *default
 
 test:

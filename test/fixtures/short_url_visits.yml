@@ -1,11 +1,29 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-# This model initially had no columns defined. If you add columns to the
-# model remove the "{}" from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-# column: value
+us_visit:
+  short_url: github
+  ip_address: 1.2.3.0
+  user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
+  referrer: https://example.com
+  country_code: US
+  country_name: United States
+  region_code: CA
+  region_name: California
+  city: San Francisco
+
+uk_visit:
+  short_url: github
+  ip_address: 5.6.7.0
+  user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+  referrer:
+  country_code: GB
+  country_name: United Kingdom
+  region_code: ENG
+  region_name: England
+  city: London
+
+no_geo_visit:
+  short_url: google
+  ip_address: 9.10.11.0
+  user_agent: "curl/7.68.0"
+  referrer:

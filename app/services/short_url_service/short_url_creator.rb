@@ -9,6 +9,8 @@ module ShortUrlService
 
       if @short_url.errors[:target_url].empty?
         @short_url.metadata = scrape_target(@short_url.target_url)
+      else
+        return @short_url
       end
 
       max_retries = 5
@@ -42,7 +44,7 @@ module ShortUrlService
         og_title:    doc.at("meta[property='og:title']")&.[]("content"),
         og_image:    doc.at("meta[property='og:image']")&.[]("content")
       }
-    rescue OpenURI::HTTPError, SocketError, Errno::ECONNREFUSED => e
+    rescue OpenURI::HTTPError, SocketError, Errno::ECONNREFUSED, Net::OpenTimeout, Errno::ETIMEDOUT => e
       Rails.logger.warn("Failed to scrape #{url}: #{e.message}")
       {}
     end

@@ -1,4 +1,22 @@
 class ShortUrlsController < ApplicationController
+  rate_limit to: 5,
+    within: 1.minutes,
+    by: -> { request.remote_ip },
+    only: :create,
+    with: :rate_limited,
+    name: "create"
+  rate_limit to: 100,
+    within: 1.minutes,
+    by: -> { "#{params[:short_code]}:#{request.remote_ip}" },
+    only: :redirect,
+    with: :rate_limited,
+    name: "redirect"
+  rate_limit to: 1,
+    within: 1.minutes,
+    by: -> { request.remote_ip },
+    except: [ :create, :redirect ],
+    with: :rate_limited,
+    name: "general"
   def index
     @short_url = ShortUrl.new
   end
@@ -21,13 +39,13 @@ class ShortUrlsController < ApplicationController
     short_url = ShortUrlService::ShortUrlResolver.call(params[:short_code])
 
     unless short_url && ShortUrlsHelper.is_valid_url?(short_url.target_url)
-      return render plain: "Short URL not found", status: :not_found
+      return render file: "public/404.html", layout: false, status: :not_found
     end
 
     if crawler_request?
       render :crawler_preview, locals: { short_url: short_url }, layout: "application"
     else
-      ShortUrlService::CaptureVisit.call(short_url, request)
+      CaptureVisitJob.perform_later(short_url.id, request.remote_ip, request.user_agent, request.referer)
       redirect_to short_url.target_url, allow_other_host: true
     end
   end
@@ -42,5 +60,9 @@ class ShortUrlsController < ApplicationController
 
   def short_url_params
     params.require(:short_url).permit(:short_code, :target_url)
+  end
+
+  def rate_limited
+    head :too_many_requests
   end
 end

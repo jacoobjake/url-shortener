@@ -8,6 +8,14 @@
   @apply p-1 rounded border flex items-center gap-1 border-gray-300 text-xs cursor-pointer hover:bg-slate-100 hover:border-gray-600 transition-all;
 }
 
+.btn-main {
+  @apply p-2 rounded border flex items-center gap-2 border-gray-300 cursor-pointer hover:bg-slate-100 hover:border-gray-600 transition-all;
+}
+
+.btn-primary {
+  @apply bg-blue-500 text-white p-2 border-blue-500 cursor-pointer hover:bg-blue-600 transition-all;
+}
+
 .alert {
   @apply border border-red-300 bg-red-100 text-red-800 p-4 rounded;
 }

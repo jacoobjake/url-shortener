@@ -1,6 +1,16 @@
 <div class="space-y-4 w-full">
-  <h1 class="font-bold text-4xl">Short URL Details</h1>
-  <p>URL and Traffic details, all in one place.</p>
+  <div class="w-full flex items-center justify-between">
+    <div>
+      <h1 class="font-bold text-4xl">Short URL Details</h1>
+      <p>URL and Traffic details, all in one place.</p>
+    </div>
+    <div>
+      <%= link_to short_url_index_path(), class: "btn-main btn-primary" do %>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+        <p>Create Another</p>
+      <% end %>
+    </div>
+  </div>
 
   <% if @short_url.present? %>
     <%= render "short_urls/short_url_details", short_url: @short_url %>

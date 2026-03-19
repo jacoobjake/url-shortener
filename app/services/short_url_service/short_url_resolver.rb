@@ -1,7 +1,9 @@
 module ShortUrlService
   class ShortUrlResolver < ApplicationService
     def initialize(short_code)
-      @short_url = ShortUrl.find_by(short_code: short_code)
+      @short_url = Rails.cache.fetch("short_url/#{short_code}", expires_in: 12.hours) do
+        ShortUrl.find_by(short_code: short_code)
+      end
     end
 
     def call

@@ -1,9 +1,24 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  short_code: MyString
-  target_url: MyText
+github:
+  short_code: gh123456
+  target_url: https://github.com
+  metadata:
+    title: "GitHub"
+    description: "Where the world builds software"
+    og_title:
+    og_image:
 
-two:
-  short_code: MyString
-  target_url: MyText
+google:
+  short_code: gg789012
+  target_url: https://www.google.com
+  metadata:
+    title: "Google"
+    description:
+    og_title:
+    og_image:
+
+rails_docs:
+  short_code: rls34567
+  target_url: https://guides.rubyonrails.org
+  metadata: {}

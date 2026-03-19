@@ -1,8 +1,10 @@
 module ShortUrlService
   class CaptureVisit < ApplicationService
-    def initialize(short_url, request)
-      @short_url = short_url
-      @request = request
+    def initialize(short_url_id, remote_ip, user_agent, referrer)
+      @short_url_id = short_url_id
+      @remote_ip = remote_ip
+      @user_agent = user_agent
+      @referrer = referrer
     end
 
     def call
@@ -29,12 +31,12 @@ module ShortUrlService
 
     def create_visit_record
       visit = ShortUrlVisit.new(
-        short_url: @short_url,
-        ip_address: anonymize_ip(@request.remote_ip),
-        user_agent: @request.user_agent,
-        referrer: @request.referer
+        short_url_id: @short_url_id,
+        ip_address: anonymize_ip(@remote_ip),
+        user_agent: @user_agent,
+        referrer: @referrer
       )
-      geo = GeoliteService::GetIpGeolocation.call(@request.remote_ip)
+      geo = GeoliteService::GetIpGeolocation.call(@remote_ip)
 
       if geo.present?
         region = geo.dig("subdivisions", 0)

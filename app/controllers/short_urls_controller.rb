@@ -63,6 +63,6 @@ class ShortUrlsController < ApplicationController
   end
 
   def rate_limited
-    head :too_many_requests
+    render "shared/rate_limited", layout: "plain", status: :too_many_requests
   end
 end

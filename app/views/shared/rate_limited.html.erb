@@ -1,0 +1,6 @@
+<div class="mt-10">
+  <h1 class="text-2xl font-bold text-red-600">Too Many Requests</h1>
+  <p class="mt-4 text-gray-600">Rate limited. Please wait a moment and try again.</p>
+  <p class="mt-2 text-sm text-gray-400">Try again in a minute.</p>
+  <%= link_to "Go back", request.referer || root_path, class: "inline-block mt-6 px-4 py-2 bg-blue-500 text-white rounded" %>
+</div>

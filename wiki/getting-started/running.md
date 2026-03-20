@@ -1,5 +1,9 @@
 # Running the Application
 
+## Live Demo
+
+A hosted demo is available at [https://url-shortener-fqp5.onrender.com](https://url-shortener-fqp5.onrender.com) — no setup required. _(Demo only — data may be reset at any time.)_
+
 ## Development
 
 The app uses Puma (web server) and the TailwindCSS watcher. Run both with:

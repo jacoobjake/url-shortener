@@ -2,7 +2,11 @@
 
 A URL shortener microservice built with Ruby on Rails 8. Given a target URL, it generates a short code, scrapes the page title/metadata, tracks every visit with geolocation, and presents a per-link analytics view.
 
-For full documentation, see the [wiki](wiki/README.md).
+🔗 **Live demo:** [https://url-shortener-fqp5.onrender.com](https://url-shortener-fqp5.onrender.com) _(demo only — data may be reset at any time)_
+
+📖 **Documentation:** [https://jake-yin.gitbook.io/simple-url-shortener](https://jake-yin.gitbook.io/simple-url-shortener)
+
+For full local documentation, see the [wiki](wiki/README.md).
 
 ---
 
@@ -41,4 +45,3 @@ bin/dev
 ```
 
 This starts `bin/rails server` on <http://localhost:3000> and the TailwindCSS watcher.
-

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_19_000001) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_19_161825) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -26,6 +26,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_19_000001) do
     t.bigint "short_url_id", null: false
     t.datetime "updated_at", null: false
     t.string "user_agent"
+    t.datetime "visited_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["short_url_id", "country_code"], name: "index_short_url_visits_on_short_url_id_and_country_code"
     t.index ["short_url_id", "created_at"], name: "index_short_url_visits_on_short_url_id_and_created_at"
     t.index ["short_url_id"], name: "index_short_url_visits_on_short_url_id"

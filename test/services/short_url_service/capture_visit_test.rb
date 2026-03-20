@@ -20,9 +20,11 @@ class ShortUrlService::CaptureVisitTest < ActiveSupport::TestCase
       "city"         => { "names" => { "en" => "San Francisco" } }
     }
 
+    visited_at = Time.current
+
     with_geo(geo) do
       assert_difference "ShortUrlVisit.count", 1 do
-        ShortUrlService::CaptureVisit.call(@short_url.id, "1.2.3.4", "Mozilla/5.0", "https://ref.example.com")
+        ShortUrlService::CaptureVisit.call(@short_url.id, "1.2.3.4", "Mozilla/5.0", "https://ref.example.com", visited_at)
       end
     end
 
@@ -32,18 +34,19 @@ class ShortUrlService::CaptureVisitTest < ActiveSupport::TestCase
     assert_equal "CA",            visit.region_code
     assert_equal "California",    visit.region_name
     assert_equal "San Francisco", visit.city
+    assert_in_delta visited_at, visit.visited_at, 1.second
   end
 
   test "anonymizes IPv4 address by zeroing the last octet" do
     with_geo({}) do
-      ShortUrlService::CaptureVisit.call(@short_url.id, "192.168.1.99", nil, nil)
+      ShortUrlService::CaptureVisit.call(@short_url.id, "192.168.1.99", nil, nil, Time.current)
     end
     assert_equal "192.168.1.0", ShortUrlVisit.last.ip_address.to_s
   end
 
   test "stores user_agent and referrer on the visit" do
     with_geo({}) do
-      ShortUrlService::CaptureVisit.call(@short_url.id, "1.2.3.4", "TestAgent/1.0", "https://ref.example.com")
+      ShortUrlService::CaptureVisit.call(@short_url.id, "1.2.3.4", "TestAgent/1.0", "https://ref.example.com", Time.current)
     end
     visit = ShortUrlVisit.last
     assert_equal "TestAgent/1.0",           visit.user_agent
@@ -53,7 +56,7 @@ class ShortUrlService::CaptureVisitTest < ActiveSupport::TestCase
   test "creates a visit with no geo data when geolocation returns nil" do
     with_geo(nil) do
       assert_difference "ShortUrlVisit.count", 1 do
-        ShortUrlService::CaptureVisit.call(@short_url.id, "1.2.3.4", "curl/7.68.0", nil)
+        ShortUrlService::CaptureVisit.call(@short_url.id, "1.2.3.4", "curl/7.68.0", nil, Time.current)
       end
     end
     visit = ShortUrlVisit.last
@@ -69,7 +72,7 @@ class ShortUrlService::CaptureVisitTest < ActiveSupport::TestCase
     }
     with_geo(geo) do
       assert_difference "ShortUrlVisit.count", 1 do
-        ShortUrlService::CaptureVisit.call(@short_url.id, "1.2.3.4", nil, nil)
+        ShortUrlService::CaptureVisit.call(@short_url.id, "1.2.3.4", nil, nil, Time.current)
       end
     end
     visit = ShortUrlVisit.last
@@ -79,7 +82,7 @@ class ShortUrlService::CaptureVisitTest < ActiveSupport::TestCase
 
   test "stores nil ip_address when remote_ip is nil" do
     with_geo({}) do
-      ShortUrlService::CaptureVisit.call(@short_url.id, nil, "Mozilla/5.0", nil)
+      ShortUrlService::CaptureVisit.call(@short_url.id, nil, "Mozilla/5.0", nil, Time.current)
     end
     assert_nil ShortUrlVisit.last.ip_address
   end

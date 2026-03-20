@@ -7,7 +7,7 @@ class CaptureVisitJobTest < ActiveJob::TestCase
 
   test "enqueues on the default queue" do
     assert_enqueued_with(job: CaptureVisitJob, queue: "default") do
-      CaptureVisitJob.perform_later(@short_url.id, "1.2.3.4", "Mozilla/5.0", nil)
+      CaptureVisitJob.perform_later(@short_url.id, "1.2.3.4", "Mozilla/5.0", nil, Time.current)
     end
   end
 
@@ -19,7 +19,7 @@ class CaptureVisitJobTest < ActiveJob::TestCase
 
     assert_difference "ShortUrlVisit.count", 1 do
       perform_enqueued_jobs do
-        CaptureVisitJob.perform_later(@short_url.id, "1.2.3.4", "Mozilla/5.0", nil)
+        CaptureVisitJob.perform_later(@short_url.id, "1.2.3.4", "Mozilla/5.0", nil, Time.current)
       end
     end
   ensure
@@ -30,7 +30,7 @@ class CaptureVisitJobTest < ActiveJob::TestCase
     GeoliteService::GetIpGeolocation.define_singleton_method(:call) { |*| nil }
 
     perform_enqueued_jobs do
-      CaptureVisitJob.perform_later(@short_url.id, "10.0.0.1", "TestAgent", "https://ref.com")
+      CaptureVisitJob.perform_later(@short_url.id, "10.0.0.1", "TestAgent", "https://ref.com", Time.current)
     end
 
     visit = ShortUrlVisit.last

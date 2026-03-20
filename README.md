@@ -1,24 +1,44 @@
-# README
+# URL Shortener
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A URL shortener microservice built with Ruby on Rails 8. Given a target URL, it generates a short code, scrapes the page title/metadata, tracks every visit with geolocation, and presents a per-link analytics view.
 
-Things you may want to cover:
+For full documentation, see the [wiki](wiki/README.md).
 
-* Ruby version
+---
 
-* System dependencies
+## Requirements
 
-* Configuration
+| Tool       | Version                     |
+| ---------- | --------------------------- |
+| Ruby       | 3.4.x (see `.ruby-version`) |
+| PostgreSQL | 13+                         |
+| Node.js    | 18+ (for asset builds)      |
+| Bundler    | 2.x                         |
 
-* Database creation
+> **GeoLite2 database** — a copy of `GeoLite2-City.mmdb` is included at `db/GeoLite2-City.mmdb` **for demo purposes only**. See the [requirements page](wiki/getting-started/requirements.md) for details.
 
-* Database initialization
+---
 
-* How to run the test suite
+## Installation & Setup
 
-* Services (job queues, cache servers, search engines, etc.)
+```bash
+# 1. Install Ruby gems
+bundle install
 
-* Deployment instructions
+# 2. Configure environment variables
+export DATABASE_HOST=localhost
+export DATABASE_USERNAME=postgres
+export DATABASE_PASSWORD=
 
-* ...
+# 3. Set up the database
+bin/rails db:prepare
+```
+
+Then start the app:
+
+```bash
+bin/dev
+```
+
+This starts `bin/rails server` on <http://localhost:3000> and the TailwindCSS watcher.
+

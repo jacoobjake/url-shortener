@@ -10,6 +10,7 @@ us_visit:
   region_code: CA
   region_name: California
   city: San Francisco
+  visited_at: 2026-03-20 10:00:00
 
 uk_visit:
   short_url: github
@@ -21,9 +22,11 @@ uk_visit:
   region_code: ENG
   region_name: England
   city: London
+  visited_at: 2026-03-20 11:00:00
 
 no_geo_visit:
   short_url: google
   ip_address: 9.10.11.0
   user_agent: "curl/7.68.0"
   referrer:
+  visited_at: 2026-03-20 12:00:00

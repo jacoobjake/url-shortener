@@ -71,3 +71,5 @@ gem "tailwindcss-rails", "~> 4.4"
 gem "maxmind-db"
 
 gem "resolv"
+
+gem "metainspector"

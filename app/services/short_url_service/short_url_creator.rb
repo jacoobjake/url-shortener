@@ -35,16 +35,15 @@ module ShortUrlService
     private
 
     def scrape_target(url)
-      html = URI.open(url)
-      doc = Nokogiri::HTML(html)
+      page = MetaInspector.new(url, headers: { "User-Agent" => Rails.configuration.scraping_user_agent })
 
       {
-        title:       doc.at("title")&.text&.strip,
-        description: doc.at("meta[name='description']")&.[]("content"),
-        og_title:    doc.at("meta[property='og:title']")&.[]("content"),
-        og_image:    doc.at("meta[property='og:image']")&.[]("content")
+        title:       page.best_title,
+        description: page.best_description,
+        og_title:    page.meta_tags["property"]&.dig("og:title")&.first,
+        og_image:    page.images.best
       }
-    rescue OpenURI::HTTPError, SocketError, Errno::ECONNREFUSED, Net::OpenTimeout, Errno::ETIMEDOUT => e
+    rescue MetaInspector::Error, Faraday::Error, Faraday::ConnectionFailed => e
       Rails.logger.warn("Failed to scrape #{url}: #{e.message}")
       {}
     end

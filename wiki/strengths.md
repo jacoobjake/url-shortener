@@ -22,7 +22,7 @@ IP addresses are anonymized before storage (IPv4 last octet zeroed; IPv6 last fi
 
 ## Metadata Scraping
 
-Page title, meta description, OG title, and OG image are extracted at creation time via Nokogiri and stored. Errors (network timeouts, HTTP errors) are caught and the URL is still shortened with empty metadata.
+Page title, meta description, OG title, and OG image are extracted at creation time via MetaInspector and stored. Errors (network timeouts, HTTP errors) are caught and the URL is still shortened with empty metadata.
 
 ## Rate Limiting
 

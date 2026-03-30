@@ -21,17 +21,14 @@ class ShortUrlService::ShortUrlCreatorTest < ActiveSupport::TestCase
   end
 
   test "stores metadata hash when scraping succeeds" do
-    html = "<html><head><title>Hello</title><meta name='description' content='Desc'></head></html>"
-
     # Override the private scrape_target on the instance to avoid real HTTP
     creator = ShortUrlService::ShortUrlCreator.new("https://example.com")
     creator.define_singleton_method(:scrape_target) do |_url|
-      doc = Nokogiri::HTML(html)
       {
-        title:       doc.at("title")&.text&.strip,
-        description: doc.at("meta[name='description']")&.[]("content"),
-        og_title:    doc.at("meta[property='og:title']")&.[]("content"),
-        og_image:    doc.at("meta[property='og:image']")&.[]("content")
+        title:       "Hello",
+        description: "Desc",
+        og_title:    nil,
+        og_image:    nil
       }
     end
 
